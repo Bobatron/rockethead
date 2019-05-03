@@ -1,6 +1,8 @@
+<!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
   <script language="javascript" type="text/javascript" src="libraries/p5.js"></script>
   <!-- uncomment lines below to include extra p5 libraries -->
   <!--<script language="javascript" src="libraries/p5.dom.js"></script>-->
@@ -8,8 +10,61 @@
   <script language="javascript" type="text/javascript" src="sketch.js"></script>
   <!-- this line removes any default padding and style. you might only need one of these values set. -->
   <style> body {padding: 0; margin: 0;} </style>
-</head>
+  <title> ROCKETHEAD </title>
+<style>
+body, html {
+  height: 100%;
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
 
+.hero-image {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://static.gbtimes.com/uploads/files/2018-10/03/linkspace-rocket-render-2.PNG");
+  height: 50%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+}
+
+.hero-text {
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+}
+
+.hero-text button {
+  border: none;
+  outline: 0;
+  display: inline-block;
+  padding: 10px 25px;
+  color: black;
+  background-color: #ddd;
+  text-align: center;
+  cursor: pointer;
+}
+
+.hero-text button:hover {
+  background-color: #555;
+  color: white;
+}
+</style>
+</head>
 <body>
+
+<div class="hero-image">
+  <div class="hero-text">
+    <h1 style="font-size:50px">ROCKETHEAD</h1>
+    <p>By the Rocket Bros</p>
+    <button onclick="test()">MORE BALLS</button>
+	<button onclick="CrazyBalls()">ALL THE BALLS</button>
+  </div>
+</div>
+
+<p></p>
+
 </body>
 </html>
