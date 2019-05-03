@@ -17,11 +17,12 @@ var stopCommand = 1;
 var time;
 var br = 0;
 var loadaballs = 1;
-var crazytime = false;
+
 
 
 function setup() {
-  this.width = windowWidth;
+  this.width = windowWidth-100;
+
   this.height = 500;
 createCanvas(this.width,this.height);
 balls[0] = new Ball();
@@ -48,7 +49,7 @@ function test(){
 }
 
 function CrazyBalls(){
-	crazytime = true;
+	loadaballs = loadaballs + 30;
 }
 
 function mover(){
@@ -109,8 +110,9 @@ function Ball() {
     this.move = function() {
       if(this.x > (width-(this.width/2))){
         this.changeX = -1;
-        if (balls.length < loadaballs || crazytime === true){
-          balls = append(balls, new Ball());
+
+        if (balls.length < loadaballs){
+        balls = append(balls, new Ball());
         }
         //this.sound.play();
         //this.sound.stop();
