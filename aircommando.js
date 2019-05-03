@@ -2,18 +2,28 @@ var x = 0;
 var y = 0;
 var sky;
 var sky2;
-var mountain;
-var mountain2;
+var distantTree;
+var distantTree2;
 var pos1 = 1000;
 var pos2 = 0;
 var scroll = 1000;
 var scroll2 = 0;
+var bushScroll = 1000;
+var bushScroll2 = 0;
+var hillScroll = 1000;
+var hillScroll2 = 0;
 var jetFighter;
 var bullets = [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null];
 var magazine = 15;
 var time;
 var gun;
 var building;
+var bgSky;
+var treesBush;
+var treesBush2;
+var hill;
+var hill1;
+var enemy;
 
 var sound;
  
@@ -57,7 +67,7 @@ function collision(){
 
 
 function Tree(height){
-  this.img = loadImage("http://localhost:8080/assets/tree.png");
+  this.img = loadImage("http://localhost:8080/assets/zeppelin.png");
   this.x = random(1000,1500);
   this.speed = 10;
 
@@ -65,7 +75,7 @@ function Tree(height){
   this.draw = function(){
     this.x -= this.speed;
 
-    image(this.img, this.x, height, this.img.width/2, this.img.height/2);
+    image(this.img, this.x, height, this.img.width/12, this.img.height/12);
   
     if(this.x < -100){
       this.x = random(1000,1500);
@@ -78,13 +88,18 @@ function Tree(height){
 
 function setup() {
   createCanvas(1000,500);
-  sky = loadImage("http://localhost:8080/assets/sky.jpg");
-  mountain = loadImage("http://localhost:8080/assets/mountain.jpg");
-  mountain2 = mountain;
+  bgSky = loadImage("http://localhost:8080/assets/background.png")
+  sky = loadImage("http://localhost:8080/assets/clouds.png");
+  hill = loadImage("http://localhost:8080/assets/hill1.png");
+  hill1 = loadImage("http://localhost:8080/assets/hill1.png"); 
+  distantTree = loadImage("http://localhost:8080/assets/distant_trees.png");
+  distantTree2 = distantTree;
+  treesBush = loadImage("http://localhost:8080/assets/trees_bushes.png");
+  treesBush2 = treesBush;
   sky2 = sky;
   jetFighter = new JetFighter();
   sound.play();
-  tree1 = new Tree(350);
+  tree1 = new Tree(100);
   tree2 = new Tree(350);
   tree3 = new Tree(350);
   tree4 = new Tree(300);
@@ -95,36 +110,49 @@ function setup() {
 }
 
 function draw() {
-  background(100);
+  //background(100);
+  image(bgSky, 0, 0);
   if (pos1 <= -1000){pos1 = pos2+1000;}
   if (pos2 <= -1000){pos2 = pos1+1000;}
   if (scroll <= -1000){scroll = scroll2+1000;}
   if (scroll2 <= -1000){scroll2 = scroll+1000;}
-  image(sky, pos2, 0);
-  image(sky2, pos1, 0);
-  image(mountain,scroll2,310);
-  image(mountain2,scroll,310);
+  if (bushScroll <= -1000){bushScroll = bushScroll2+1000;}
+  if (bushScroll2 <= -1000){bushScroll2 = bushScroll+1000;}
+  if (hillScroll <= -1000){hillScroll = hillScroll2+1000;}
+  if (hillScroll2 <= -1000){hillScroll2 = hillScroll+1000;}
+  image(sky, pos2, 0, 1000, 1000);
+  image(sky2, pos1, 0, 1000, 1000);
+  image(hill,hillScroll2,-300, 1000, 1000);
+  image(hill1,hillScroll,-300, 1000, 1000);
+  image(distantTree,scroll2,-300, 1000, 1000);
+  image(distantTree2,scroll,-300, 1000, 1000);
+  image(treesBush,bushScroll2,-300, 1000, 1000);
+  image(treesBush2,bushScroll,-300, 1000, 1000);
   text(frameRate(), 10, 10);
+  bushScroll -= 10;
+  bushScroll2 -= 10;
   scroll-=5;
   scroll2-=5;
+  hillScroll -=2;
+  hillScroll2 -=2;
   pos1-=1;
   pos2-=1;
   collision();
-  tree4.draw();
-  tree5.draw();
-  tree6.draw();
-  tree2.draw();
-  tree3.draw();
+  //tree4.draw();
+  //tree5.draw();
+  //tree6.draw();
+  //tree2.draw();
+  //tree3.draw();
   jetFighter.draw();
   jetFighter.move();
   for(var i = 0; i < magazine; i++){
       if(bullets[i] != null){
         bullets[i].fire();
-        if((bullets[i].x > tree1.x && bullets[i].x < tree1.x + 111) && (bullets[i].y > 350 && bullets[i].y < 500)){tree1 = new Explosion(tree1.x, 350);}
+        if((bullets[i].x > tree1.x && bullets[i].x < tree1.x + 111) && (bullets[i].y > 100 && bullets[i].y < 150)){tree1 = new Explosion(tree1.x, 100);}
         if(bullets[i].x > 1000){bullets[i] = null;}
       }
     }
-  building.draw();
+  //building.draw();
   tree1.draw();
   
 
@@ -143,13 +171,32 @@ function JetFighter(){
   this.move = function(){
     if (keyIsDown(LEFT_ARROW)) {
         this.x -= 3;
+        pos1 += 1;
+        pos2 += 1;
+        hillScroll +=1;
+        hillScroll2 +=1;
+        scroll += 2;
+        scroll2 += 2;
+        bushScroll += 5;
+        bushScroll2 += 5;
+        tree1.x += 7;
+        tree2.x += 7;
+        tree3.x -= 7;
+        tree4.x += 7;
+        tree5.x += 7;
+        tree6.x += 7;
+        building.x += 7;
       }
       if (keyIsDown(RIGHT_ARROW)) {
         this.x += 3;
         pos1 -= 2;
         pos2 -=2;
+        hillScroll -=4;
+        hillScroll2 -=4;
         scroll -= 10;
         scroll2 -= 10;
+        bushScroll -= 20;
+        bushScroll2 -= 20;
         tree1.x -= 30;
         tree2.x -= 30;
         tree3.x -= 30;
@@ -208,7 +255,7 @@ function Explosion(posX, posY){
   this.draw = function(){
     this.x -= this.speed;
         fill(255, 204, 0);
-        translate(this.x, height);
+        translate(this.x, this.y);
         noStroke();
         for (var i = 0; i < 10; i ++) {
         ellipse(0, 30, 20, 80);
@@ -216,7 +263,7 @@ function Explosion(posX, posY){
   }
 
     if(this.x < -100){
-      tree1 = new Tree(350);
+      tree1 = new Tree(100);
     }
     
   }
