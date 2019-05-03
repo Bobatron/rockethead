@@ -15,9 +15,12 @@ var colorLevel = 0;
 var mic;
 var stopCommand = 1;
 var time;
+var br = 0;
+var loadaballs = 1;
+
 
 function setup() {
-  this.width = 500;
+  this.width = windowWidth-100;
   this.height = 500;
 createCanvas(this.width,this.height);
 balls[0] = new Ball();
@@ -27,7 +30,7 @@ time = millis();
 }
 
 function draw() {
-  background(153);
+  background(br);
   command();
   for(var i = 0; i < balls.length; i++){
     balls[i].keys();
@@ -37,6 +40,14 @@ function draw() {
     balls[i].display();
   }
 
+}
+
+function test(){
+	loadaballs = loadaballs + 3;
+}
+
+function CrazyBalls(){
+	loadaballs = loadaballs + 30;
 }
 
 function mover(){
@@ -81,7 +92,7 @@ function Ball() {
   this.colorModX = 1;
   this.colorModY = 1;
   this.maxDiameter = 50;
-  this.maxBalls = 5;
+  this.maxBalls = loadaballs;
   this.sound = new MySound();
   this.time;
 
@@ -97,7 +108,7 @@ function Ball() {
     this.move = function() {
       if(this.x > (width-(this.width/2))){
         this.changeX = -1;
-        if (balls.length < this.maxBalls){
+        if (balls.length < loadaballs){
           balls = append(balls, new Ball());
         }
         //this.sound.play();
