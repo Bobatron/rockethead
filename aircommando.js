@@ -31,15 +31,15 @@ function preload()
 {
   // initialize sound
   sound = loadSound('assets/bg.mp3');
-  gun = loadSound('http://localhost:8080/assets/gun.wav');
+  gun = loadSound('assets/gun.wav');
 
 }
 
 function Building(height){
-  this.img = loadImage("http://localhost:8080/assets/building.jpg");
+  this.img = loadImage("assets/building.jpg");
   this.x = random(1000,1500);
   this.speed = 10;
-  this.destroy = loadImage("http://localhost:8080/assets/destroy.jpg");
+  this.destroy = loadImage("assets/destroy.jpg");
   this.destroyed = false;
 
 
@@ -51,7 +51,7 @@ function Building(height){
     if(this.x < -200){
       this.x = random(1000,1500);
 	  this.destroyed = false;
-      this.img = loadImage("http://localhost:8080/assets/building.jpg");
+      this.img = loadImage("assets/building.jpg");
     }
     
   }
@@ -67,7 +67,7 @@ function collision(){
 
 
 function Tree(height){
-  this.img = loadImage("http://localhost:8080/assets/zeppelin.png");
+  this.img = loadImage("assets/zeppelin.png");
   this.x = random(1000,1500);
   this.speed = 10;
 
@@ -88,13 +88,13 @@ function Tree(height){
 
 function setup() {
   createCanvas(1000,500);
-  bgSky = loadImage("http://localhost:8080/assets/background.png")
-  sky = loadImage("http://localhost:8080/assets/clouds.png");
-  hill = loadImage("http://localhost:8080/assets/hill1.png");
-  hill1 = loadImage("http://localhost:8080/assets/hill1.png"); 
-  distantTree = loadImage("http://localhost:8080/assets/distant_trees.png");
+  bgSky = loadImage("assets/background.png")
+  sky = loadImage("assets/clouds.png");
+  hill = loadImage("assets/hill1.png");
+  hill1 = loadImage("assets/hill1.png"); 
+  distantTree = loadImage("assets/distant_trees.png");
   distantTree2 = distantTree;
-  treesBush = loadImage("http://localhost:8080/assets/trees_bushes.png");
+  treesBush = loadImage("assets/trees_bushes.png");
   treesBush2 = treesBush;
   sky2 = sky;
   jetFighter = new JetFighter();
@@ -162,7 +162,7 @@ function draw() {
 function JetFighter(){
   this.x = 0;
   this.y = 0;
-  this.jet = loadImage("http://localhost:8080/assets/jet.png");
+  this.jet = loadImage("assets/jet.png");
 
   this.draw = function(){
     image(this.jet, this.x, this.y, this.jet.width/4, this.jet.height/4);
