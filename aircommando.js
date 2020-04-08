@@ -169,7 +169,7 @@ function JetFighter(){
   }
 
   this.move = function(){
-    if (keyIsDown(LEFT_ARROW)) {
+    if (keyIsDown(LEFT_ARROW) || window.leftX < -0.5) {
         this.x -= 3;
         pos1 += 1;
         pos2 += 1;
@@ -187,7 +187,7 @@ function JetFighter(){
         tree6.x += 7;
         building.x += 7;
       }
-      if (keyIsDown(RIGHT_ARROW)) {
+      if (keyIsDown(RIGHT_ARROW) || window.leftX > 0.5) {
         this.x += 3;
         pos1 -= 2;
         pos2 -=2;
@@ -206,15 +206,15 @@ function JetFighter(){
         building.x -= 30;
 
       }
-      if (keyIsDown(UP_ARROW)) {
+      if (keyIsDown(UP_ARROW) || window.leftY < -0.5) {
         if(this.y > 0){
         this.y -= 3;
       }
       }
-      if (keyIsDown(DOWN_ARROW)) {
+      if (keyIsDown(DOWN_ARROW) || window.leftY > 0.5) {
         if(this.y < 410){this.y += 3;}
       }
-      if(keyIsDown(CONTROL)){
+      if(keyIsDown(CONTROL) || window.xPressed){
         
         for(var i = 0; i < magazine; i++){
           if(millis() - time > 100){
