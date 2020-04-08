@@ -1,6 +1,6 @@
 let stars = [];
 let canvheight = 400
-let imgcon,imgbob,imgscream;
+let imgcon,imgbob,imgscream,imgbaby;
 crocketx = -447;
 crockety = 0;
 brocketx = (-440) + crocketx;
@@ -10,6 +10,7 @@ function preload() {
   imgcon = loadImage('assets/rocketcon.png');
   imgbob = loadImage('assets/rocketbob.png');
   imgscream = loadImage('assets/rocketbobscream.png');
+  imgbaby = loadImage('assets/baby.jpeg');
 }
 
 function setup(){
@@ -27,7 +28,7 @@ function draw(){
 	for (i=0;i<1000;i++){
 		stars[i].show();
 	}
-
+	image(imgbaby,windowWidth-100, canvheight - 300, 70, 150);
 	Rocketfly();
 
 }
