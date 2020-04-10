@@ -265,5 +265,17 @@ function DisplayHealth(){
 
 
 }
+
+function keyPressed(){
+	if (keyCode === UP_ARROW) {
+		alert("I didn't fucking say push the UP key did I?");
+		document.getElementById("upkey").innerHTML = "I didn't fucking say push the UP key did I?";
+	}
+	if (keyCode === DOWN_ARROW) {
+		alert("I didn't fucking say push the DOWN key did I?");
+		document.getElementById("downkey").innerHTML = "I didn't fucking say push the DOWN key did I?";
+	}
+
+}
 //Increase for each level ->
 //resizeCanvas(windowWidth, windowHeight);
