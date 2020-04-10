@@ -171,6 +171,7 @@ class space{
 			point(this.x,this.y);
 		} else {
 			stroke('white');
+			strokeWeight(this.size);
 			line(this.x,this.y, this.x, this.y + 10);
 		}
 

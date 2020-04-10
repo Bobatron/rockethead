@@ -14,7 +14,8 @@ function preload() {
 }
 
 function setup(){
-createCanvas(windowWidth,canvheight);
+canvas = createCanvas(windowWidth,canvheight);
+canvas.parent('canvas');
 
 	for (i=0;i<1000;i++){
 		stars[i] = new Stars();
@@ -72,4 +73,8 @@ if (crocketx >= width){
 
 
 
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, canvheight);
 }
