@@ -9,6 +9,9 @@ let spacelength = 500;
 let spacewidth = 500;
 let asteroidfieldsize = 10;
 let health = 100;
+let fuel = 0;
+let hud;
+let reactor;
 
 function preload(){
 	shipimg = loadImage('assets/ship.png');
@@ -25,19 +28,18 @@ function setup() {
   var x = (windowWidth - width) / 2;
   var y = (windowHeight - height) / 2;
   cnv.position(x, y);
-  background(0);
-
+	hud = new HUD();
   ship = new player();
-
   //asteroid field
   for(i=0;i<asteroidfieldsize;i++){
 	  ast[i] = new asteroid();
   }
-
   //star field
   for(i=0;i<200;i++){
 	  stars[i] = new space();
   }
+
+
 
 
 }
@@ -70,9 +72,14 @@ function draw(){
 		}
 
 	Displayspeed();
-	DisplayHealth();
+	hud.health();
+	hud.fuel();
 
-
+//test
+// push();
+// stroke('red');
+// line(spacewidth/2,0,spacewidth/2,spacelength);
+// pop();
 
 
 }
@@ -80,7 +87,7 @@ function draw(){
 
 class player{
 	constructor(){
-		this.x = 235;
+		this.x = 225;
 		this.y = 450;
 		this.size = 50;
 
@@ -239,30 +246,69 @@ class asteroid{
 
 }
 
+//WIP
+class collectables{
+	constructor(type){
+		switch (type) {
+			case "fuel":
+				this.x = random(0,spacewidth);
+				this.y = random(-500,0);
+				break;
+			default:
+
+		}
+
+	}
+
+
+
+}
+
 function Displayspeed(){
 	document.getElementById("speed").innerHTML = "Speed: " +shipspeed.toString() + " Space miles per hour";
 
 }
 
-function DisplayHealth(){
-	if (health > 0){
-		var mappedhealth = map(health,0,100,50,spacewidth - 80);
-		var healthcol;
-		if (health > 70) {healthcol = 'green'} else
-		if (health > 40) {healthcol = 'orange'} else
-		{healthcol = 'red'};
-		fill(healthcol);
-		push();
-		noStroke();
-		text("Health",0,spacelength - 1);
-		pop();
-		rect(50,spacelength - 8,mappedhealth,5)
-		return true;
-	} else {
-		return false;
+function HUD(){
+	const hudlength = ((spacewidth/2) - 80)
+
+	this.health = function(){
+		if (health > 0){
+			var mappedhealth = map(health,0,100,50,(spacewidth/2));
+			var healthcol;
+			if (health > 70) {healthcol = 'green'} else
+			if (health > 40) {healthcol = 'orange'} else
+				 					  	 {healthcol = 'red'};
+
+			fill(healthcol);
+			push();
+			noStroke();
+			text("HEALTH",0,spacelength - 1);
+			pop();
+			rect(50,spacelength - 8,mappedhealth - 50,5)
+
+			return true;
+		} else {
+			return false;
+		}
 	}
 
+	this.fuel = function(){
+		if (fuel <= 100){
+			var mappedfuel = map(fuel,0,100,280,spacewidth);
+			var fuelcol = "red";
+			fill(fuelcol);
+			push();
+			noStroke();
+			text("FUEL",250,spacelength - 1);
+			text
+			pop();
+			rect(280,spacelength - 8,mappedfuel - 280,5)
 
+			rect
+			return true;
+		}
+	}
 
 }
 
