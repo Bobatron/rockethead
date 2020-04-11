@@ -119,11 +119,11 @@ class player{
 	move(){
 
 	  if (keyIsDown(LEFT_ARROW) && ship.x > (this.size/2)) {
-		ship.x -= 5;
+		ship.x -= 10;
 	  }
 
 	  if (keyIsDown(RIGHT_ARROW) && ship.x < width -(this.size/2)) {
-		ship.x += 5;
+		ship.x += 10;
 	  }
 
 
