@@ -21,6 +21,7 @@ class Boss {
         this.xSpeed;
         this.ySpeed;
         this.yDirection = "DOWN";
+        this.xDirection = "LEFT";
 
         this.drawImg = this.img1;
         this.sequenceID = 0;
@@ -114,6 +115,8 @@ class Boss {
             this.middle();
         } else if (this.sequenceID == 2) {
             this.end();
+        } else if (this.sequenceID == 3) {
+            this.deadBoss();
         }
         this.x -= this.xSpeed;
         this.y += this.ySpeed;
@@ -128,18 +131,20 @@ class Boss {
             this.sequenceID = 1;
             this.yDirection = "DOWN";
             this.ySpeed = 2;
+            this.xSpeed = 0;
             this.time = millis();
         }
     }
 
     middle() {
-        if (this.health <= 0) {
+        if (this.health <= 200) {
             this.sequenceID = 2;
             this.ySpeed = 2;
-            this.dead = true;
-
+            this.yDirection = "DOWN";
+            this.xDirection = "RIGHT";
+            this.time = millis();
+            this.xSpeed = -2;
         }
-        this.xSpeed = 0;
         if (this.y > (500 - (this.drawImg.height / 8)) && this.yDirection === "DOWN") {
             this.ySpeed = -2;
             this.yDirection = "UP";
@@ -153,7 +158,34 @@ class Boss {
         }
     }
 
-    end() {
+    end(){
+        if (this.y > 500 - this.imgHeight && this.yDirection === "DOWN") {
+            this.ySpeed = -2;
+            this.yDirection = "UP";
+        } else if (this.y < 0 && this.yDirection === "UP") {
+            this.ySpeed = 2;
+            this.yDirection = "DOWN";
+        }
+        if (this.x > 1000 - this.imgWidth && this.xDirection === "RIGHT") {
+            this.xSpeed = 2;
+            this.xDirection = "LEFT";
+        } else if (this.x < 0 && this.xDirection === "LEFT") {
+            this.xSpeed = -2;
+            this.xDirection = "RIGHT";
+        }
+        if (millis() - this.time > 500 && this.attack == false) {
+            this.attack = true;
+            this.time = millis();
+        }
+        if (this.health <= 0) {
+            this.sequenceID = 3;
+            this.ySpeed = 2;
+            this.dead = true;
+        }
+
+    }
+
+    deadBoss(){
         this.xSpeed = 2;
         this.ySpeed = 2;
     }
