@@ -132,7 +132,7 @@ class player{
 
 	move(){
 
-	  if (keyIsDown(LEFT_ARROW) && ship.x > (this.size/2)) {
+	  if (keyIsDown(LEFT_ARROW) && ship.x > -(this.size/2)) {
 		ship.x -= 10;
 	  }
 
