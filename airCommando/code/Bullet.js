@@ -6,6 +6,10 @@ class Bullet {
         this.bullet = ellipse(this.x, this.y, 10, 10);
     }
 
+    getCoords(){
+        return [this.x, this.y, 10, 10];
+    }
+
     draw() {
         fill(255);
         if (this.x < 1001) {
