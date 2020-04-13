@@ -1,5 +1,5 @@
 let ship;
-let shipimg,shipimg2,astimg,fruitimg1,fruitimg2,fruitimg3;
+let shipimg,shipimg2,shipimg3,astimg,fruitimg1,fruitimg2,fruitimg3,fuelimg,menuframe;
 let bullets = [];
 let stars = [];
 let shipspeed = 5;
@@ -9,17 +9,20 @@ let spacelength = 500;
 let spacewidth = 500;
 let asteroidfieldsize = 10;
 let health = 100;
-let fuel = 0;
+let fuel = 10;
 let hud;
-let reactor;
+let distance = 1;
 
 function preload(){
 	shipimg = loadImage('assets/ship.png');
 	shipimg2 = loadImage('assets/shipzoom.png');
+	shipimg3 = loadImage('assets/shipdie.png');
 	astimg = loadImage('assets/asteroid.png');
 	fruitimg1 = loadImage('assets/apple.png');
 	fruitimg2 = loadImage('assets/strawb.png');
 	fruitimg3 = loadImage('assets/cherry.png');
+	fuelimg = loadImage('assets/fuel.png');
+	menuframe = loadImage('assets/menuframe.png');
 
 }
 
@@ -30,6 +33,7 @@ function setup() {
   cnv.position(x, y);
 	hud = new HUD();
   ship = new player();
+	gas = new fueltank();
   //asteroid field
   for(i=0;i<asteroidfieldsize;i++){
 	  ast[i] = new asteroid();
@@ -52,9 +56,9 @@ function draw(){
 		stars[i].move();
 	}
 
-	ship.show();
-	ship.move();
-	ship.shoot();
+	gas.show();
+	gas.move();
+	gas.collide(ship.x,ship.y,ship.size);
 
 	//bullet movement
 	if (bullets.length > 0){
@@ -75,11 +79,18 @@ function draw(){
 	hud.health();
 	hud.fuel();
 
-//test
-// push();
-// stroke('red');
-// line(spacewidth/2,0,spacewidth/2,spacelength);
-// pop();
+
+		ship.show();
+	if (health > 0){
+
+		ship.move();
+		ship.shoot();
+		distance += shipspeed * 0.01;
+	} else {
+		DisplayFinalScore();
+
+	}
+
 
 
 }
@@ -100,25 +111,28 @@ class player{
 
 	show(){
 		//translate(-(this.size/2),-(this.size/2))
-		if (keyIsDown(ESCAPE)) {
-			//hyperspeed
-			image(shipimg2,this.x,this.y,this.size, this.size);
-			if (shipspeed <= shipspeedlimit){
-			shipspeed += 1;
+		//shouldn' this be under move?
+		if (health > 0){
+			if (keyIsDown(ESCAPE) && fuel > 1) {
+				//hyperspeed
+				image(shipimg2,this.x,this.y,this.size, this.size);
+				if (shipspeed <= shipspeedlimit){shipspeed += 1;};
+				fuel -= 0.1;
+			} else {
+				shipspeed = 5;
+				image(shipimg,this.x,this.y,this.size, this.size);
+				// stroke(0);
+				// rect(this.x, this.y, this.size, this.size);
 			}
 		} else {
-			shipspeed = 5;
-			image(shipimg,this.x,this.y,this.size, this.size);
-			// stroke(0);
-			// rect(this.x, this.y, this.size, this.size);
+			image(shipimg3,this.x,this.y,this.size, this.size);
 		}
-
 
 	}
 
 	move(){
 
-	  if (keyIsDown(LEFT_ARROW) && ship.x > (this.size/2)) {
+	  if (keyIsDown(LEFT_ARROW) && ship.x > -(this.size/2)) {
 		ship.x -= 5;
 	  }
 
@@ -192,6 +206,7 @@ class space{
 			line(this.x,this.y, this.x, this.y + 10);
 		}
 
+
 	}
 
 	move(){
@@ -247,25 +262,40 @@ class asteroid{
 }
 
 //WIP
-class collectables{
-	constructor(type){
-		switch (type) {
-			case "fuel":
-				this.x = random(0,spacewidth);
-				this.y = random(-500,0);
-				break;
-			default:
+class fueltank{
+	constructor(){
+		this.sizex = 5;
+		this.sizey = this.sizex * 3;
+		this.x = random(0,spacewidth - this.sizex);
+		this.y = random(0, -(spacelength));
+	}
+	show(){
+		image(fuelimg,this.x,this.y,this.sizex,this.sizey);
+	}
 
+	move(){
+		this.y += (shipspeed * 0.2);
+		if (this.y > spacelength){
+			this.x = random(0,spacewidth - this.sizex);
+			this.y = random(-(spacelength),0);
 		}
 
 	}
 
+	collide(x,y,s){
+		if (collideRectRect(x,y,s,s,this.x,this.y,this.sizex,this.sizey) && fuel <=100){
+			console.log("REFUELLED!");
+			fuel += 20;
+			this.y = spacelength;
+		}
 
+	}
 
 }
 
 function Displayspeed(){
 	document.getElementById("speed").innerHTML = "Speed: " +shipspeed.toString() + " Space miles per hour";
+	document.getElementById("dist").innerHTML = "Distance travelled " +(Math.trunc(distance)).toString() + " Space miles";
 
 }
 
@@ -325,3 +355,14 @@ function keyPressed(){
 }
 //Increase for each level ->
 //resizeCanvas(windowWidth, windowHeight);
+
+function DisplayFinalScore(){
+	image(menuframe,100,100,300,150);
+	fill('green');
+	push();
+	noStroke();
+	textSize(30)
+	text("Distance travelled: ",120,150);
+	text(Math.trunc(distance).toString() + " Space miles",120,200);
+	pop();
+}
