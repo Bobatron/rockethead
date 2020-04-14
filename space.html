@@ -13,21 +13,21 @@
   <!-- this line removes any default padding and style. you might only need one of these values set. -->
 
   <link rel="stylesheet" type="text/css" href="RocketStyle.css">
-
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script>
+  $(document).ready(function(){
+  $('#menu').load('/Menu.html');
+  });
+  </script>
   <style> body {padding: 0; margin: 0;} </style>
   <title> ROCKETHEAD </title>
 
 </head>
 <body>
-<ul>
-  <li><a href="index.html">Home</a></li>
-  <li><a href="conny.html">Cona</a></li>
-  <li><a href="bobby.html">Bobby</a></li>
-  <li><a class="active" href="space.html">Space</a></li>
-  <li style="float:right"><a href="#about">Fecks this about?</a></li>
-</ul>
-
-<div id="level" style="text-align:center"> <h1> LEVEL 1</h1> </div>
+<div id ="menu"> </div>
+<h1>
+<div id="level" style="text-align:center">LEVEL 1 </div>
+</h1>
 <div id="speed" style="text-align:center"> <p>  </p> </div>
 <hr />
 <h3> CONTROLS </h3>

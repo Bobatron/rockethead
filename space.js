@@ -9,9 +9,11 @@ let spacelength = 500;
 let spacewidth = 500;
 let asteroidfieldsize = 10;
 let health = 100;
-let fuel = 10;
+let fuel = 20;
 let hud;
 let distance = 1;
+let level = 1;
+let cnv;
 
 function preload(){
 	shipimg = loadImage('assets/ship.png');
@@ -27,7 +29,7 @@ function preload(){
 }
 
 function setup() {
-  var cnv = createCanvas(spacewidth, spacelength);
+  cnv = createCanvas(spacewidth, spacelength);
   var x = (windowWidth - width) / 2;
   var y = (windowHeight - height) / 2;
   cnv.position(x, y);
@@ -80,7 +82,7 @@ function draw(){
 	hud.fuel();
 
 
-		ship.show();
+	ship.show();
 	if (health > 0){
 
 		ship.move();
@@ -88,10 +90,11 @@ function draw(){
 		distance += shipspeed * 0.01;
 	} else {
 		DisplayFinalScore();
-
 	}
 
-
+	if (distance % 1000 < 1){
+		levelup();
+	}
 
 }
 
@@ -223,7 +226,7 @@ class space{
 
 class asteroid{
 	constructor(){
-		this.x = random(50,width);
+		this.x = random(0,spacewidth);
 		this.size = random(10,100);
 		this.y = random((-250) - this.size,0);
 	}
@@ -244,7 +247,7 @@ class asteroid{
 	move(){
 		this.y += (shipspeed * 0.2);
 		if (this.y > height){
-			this.x = random(50,width);
+			this.x = random(0,width);
 			this.y = random(0,-(spacelength));
 			this.size = random(10,100);
 		}
@@ -286,6 +289,8 @@ class fueltank{
 		if (collideRectRect(x,y,s,s,this.x,this.y,this.sizex,this.sizey) && fuel <=100){
 			console.log("REFUELLED!");
 			fuel += 20;
+			fuel = constrain(fuel,0,100);
+
 			this.y = spacelength;
 		}
 
@@ -324,7 +329,7 @@ function HUD(){
 	}
 
 	this.fuel = function(){
-		if (fuel <= 100){
+		if (fuel){
 			var mappedfuel = map(fuel,0,100,280,spacewidth);
 			var fuelcol = "red";
 			fill(fuelcol);
@@ -365,4 +370,41 @@ function DisplayFinalScore(){
 	text("Distance travelled: ",120,150);
 	text(Math.trunc(distance).toString() + " Space miles",120,200);
 	pop();
+}
+
+function levelup(){
+	console.log("Level up!");
+	level +=1;
+	resizespace(level);
+	//inform user - currently dissapears immediately
+		image(menuframe,100,100,300,150);
+		fill('green');
+		push();
+		noStroke();
+		textSize(30)
+		text("LEVEL " + level.toString(),120,150);
+		pop();
+
+}
+
+function resizespace(level){
+	switch (level) {
+		case 2:
+			spacelength +=100;
+			resizeCanvas(spacewidth,spacelength);
+			console.log("level 2");
+			document.getElementById("level").innerHTML = "LEVEL 2";
+			break;
+		case 3:
+			spacewidth +=100;
+			resizeCanvas(spacewidth,spacelength);
+			console.log("level 3");
+			document.getElementById("level").innerHTML = "LEVEL 3";
+		case 4:
+			resizeCanvas(spacewidth + 100,spacelength + 200);
+		default:
+
+	}
+
+
 }
